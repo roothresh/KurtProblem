@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KurtProblem
@@ -10,12 +11,19 @@ namespace KurtProblem
     {
         static void Main(string[] args)
         {
-            //diziyi alalım.
-            Console.WriteLine("1, 5 arası olacak şekilde sayılar girmelisiniz. Her bir elemanı girdikten sonra ',' ile ayırınız. ");
-            string input = Console.ReadLine();
+          string input; 
+
+            //inputta sadece rakam ve , olmalı kontrol edelim ama patlatmayalım
+            do
+            {
+                //diziyi alalım.
+                Console.WriteLine($"{MyConstants.MINIMUM_VALUE_OF_NUMBERS}, {MyConstants.MAXIMUM_VALUE_OF_NUMBERS} " +
+                    $"arası olacak şekilde sadece sayılar girmelisiniz. Her bir elemanı girdikten sonra ',' ile ayırınız. ");
+                input = Console.ReadLine();
+            } while (!Regex.IsMatch(input, @"^[0-9,]+$"));
 
             //girilen inputu array inte convert edelim.
-            int[] theArray = input.Split(',').Select(int.Parse).ToArray();
+            int[] theArray = input.TrimEnd(',').Split(',').Select(int.Parse).ToArray();
 
             Console.WriteLine("En çok tekrar eden en küçük sayı = " + FindLeastValuedButMostOccuringNumberCount(theArray));
             Console.ReadKey();
